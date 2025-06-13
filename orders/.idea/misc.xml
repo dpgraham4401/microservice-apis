@@ -3,7 +3,4 @@
   <component name="Black">
     <option name="sdkName" value="uv (orders)" />
   </component>
-  <component name="FormatOnSaveOptions">
-    <option name="myRunOnSave" value="true" />
-  </component>
 </project>
