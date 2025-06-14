@@ -26,8 +26,8 @@ class OrderItem(BaseModel):
     order_id: int = Field(default_factory=lambda: random.randint(1, 100), alias="id")
     product: str
     size: Size
-    status: Status = Field(Status.created)
-    created: datetime = Field(default_factory=datetime.now)
+    status: Status
+    created: datetime
     quantity: Annotated[int, Field(ge=1, strict=True)] = 1
 
     model_config = ConfigDict(extra="forbid")
