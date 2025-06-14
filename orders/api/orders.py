@@ -1,6 +1,8 @@
+from datetime import datetime, timezone
+
 from fastapi import APIRouter, HTTPException
 
-from schema import OrderItem, Size
+from schema import OrderItem, Size, GetOrderSchema
 
 router = APIRouter(prefix="/orders", tags=["orders"])
 
@@ -22,11 +24,12 @@ async def get_orders(limit: int | None = None):
     return query_set
 
 
-@router.get("/{order_id}")
+@router.get("/{order_id}", response_model=GetOrderSchema)
 async def get_order_by_id(order_id: int):
     """Get order by id."""
     for order in orders:
         if order.order_id == order_id:
+            print(order)
             return order
     raise HTTPException(status_code=404, detail="Order not found")
 

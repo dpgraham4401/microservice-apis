@@ -1,5 +1,7 @@
 import random
+from datetime import datetime
 from typing import Optional, Annotated
+from uuid import UUID
 
 from pydantic import BaseModel, conint, ConfigDict, field_validator, Field
 
@@ -24,6 +26,8 @@ class OrderItem(BaseModel):
     order_id: int = Field(default_factory=lambda: random.randint(1, 100), alias="id")
     product: str
     size: Size
+    status: Status = Field(Status.created)
+    created: datetime = Field(default_factory=datetime.now)
     quantity: Annotated[int, Field(ge=1, strict=True)] = 1
 
     model_config = ConfigDict(extra="forbid")
@@ -33,3 +37,14 @@ class OrderItem(BaseModel):
     def quantity_non_nullable(cls, value):
         assert value is not None, 'quantity may not be None'
         return value
+
+class CreateOrderSchema(BaseModel):
+    order: Annotated[OrderItem, Field(gt=0)]
+    model_config = ConfigDict(extra="forbid")
+
+class GetOrderSchema(BaseModel):
+    order_id: int = Field(alias="id")
+    created: datetime
+    status: Status
+
+    model_config = ConfigDict(populate_by_name=True)
