@@ -1,8 +1,9 @@
-from typing import Optional
+from typing import Optional, Annotated
 
-from pydantic import BaseModel, conint, ConfigDict, field_validator
+from pydantic import BaseModel, conint, ConfigDict, field_validator, Field
 
 from enum import Enum
+
 class Size(Enum):
     small = 'small'
     medium = 'medium'
@@ -17,10 +18,11 @@ class Status(Enum):
     dispatched = 'dispatched'
     delivered = 'delivered'
 
-class OrderItemSchema(BaseModel):
+class OrderItem(BaseModel):
+    order_id: int = Field(..., alias="id")
     product: str
     size: Size
-    quantity: Optional[conint(ge=1, strict=True)] = 1
+    quantity: Annotated[int, Field(ge=1, strict=True)] = 1
 
     model_config = ConfigDict(extra="forbid")
 

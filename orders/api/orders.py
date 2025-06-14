@@ -1,15 +1,15 @@
 from fastapi import APIRouter
 
-from schema import OrderItemSchema, Size
+from schema import OrderItem, Size
 
-router = APIRouter()
+router = APIRouter(prefix="/orders", tags=["orders"])
 
-orders: list[OrderItemSchema] = [
-    OrderItemSchema(quantity=1, product="foo", size=Size.big)
+orders: list[OrderItem] = [
+    OrderItem(quantity=1, product="foo", size=Size.big, id=1)
 ]
 
-@router.get("/")
-async def root():
+@router.get("")
+async def get_orders():
     return orders
 
 
