@@ -1,10 +1,16 @@
 from fastapi import APIRouter
 
+from schema import OrderItemSchema, Size
+
 router = APIRouter()
+
+orders: list[OrderItemSchema] = [
+    OrderItemSchema(quantity=1, product="foo", size=Size.big)
+]
 
 @router.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return orders
 
 
 @router.get("/hello/{name}")
