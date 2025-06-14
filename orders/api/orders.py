@@ -12,9 +12,14 @@ orders: list[OrderItem] = [
 ]
 
 @router.get("")
-async def get_orders():
+async def get_orders(limit: int | None = None):
     """Get all orders."""
-    return orders[:2]
+    query_set = [order for order in orders]
+
+    if limit and limit < len(orders):
+        query_set = query_set[:limit]
+
+    return query_set
 
 
 @router.get("/{order_id}")
