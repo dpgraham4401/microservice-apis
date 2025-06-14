@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
 from schema import OrderItem, Size
 
@@ -13,6 +13,9 @@ async def get_orders():
     return orders
 
 
-@router.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
+@router.get("/{order_id}")
+async def get_order_by_id(order_id: int):
+    for order in orders:
+        if order.order_id == order_id:
+            return order
+    raise HTTPException(status_code=404, detail="Order not found")
