@@ -1,8 +1,10 @@
+import random
 from typing import Optional, Annotated
 
 from pydantic import BaseModel, conint, ConfigDict, field_validator, Field
 
 from enum import Enum
+
 
 class Size(Enum):
     small = 'small'
@@ -19,7 +21,7 @@ class Status(Enum):
     delivered = 'delivered'
 
 class OrderItem(BaseModel):
-    order_id: int = Field(..., alias="id")
+    order_id: int = Field(default_factory=lambda: random.randint(1, 100), alias="id")
     product: str
     size: Size
     quantity: Annotated[int, Field(ge=1, strict=True)] = 1
