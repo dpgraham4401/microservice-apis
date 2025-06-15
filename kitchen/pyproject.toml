@@ -1,0 +1,9 @@
+[project]
+name = "kitchen"
+version = "0.0.1"
+description = "The kitchen service (an example project following along with Microservice APIs by J. Peralta)."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.115.12",
+]
